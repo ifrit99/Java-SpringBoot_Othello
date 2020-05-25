@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<title th:text="${title}">Insert title here</title>
+</head>
+
+<body>
+	<header>
+		<h1 th:text="${title}">Insert h1</h1>
+		<div id="info">
+			<ul>
+				<li><h2 id="turnPlate" class="blackturn">黒の番</h2></li>
+				<li><button id="pass">パス</button></li>
+			</ul>
+		</div>
+	</header>
+	<form method="post" action="#" th:action="@{/}"
+		onSubmit="return check()">
+		<input type="hidden" name="x" value=""> <input type="hidden"
+			name="y" value=""> <input type="hidden" name="strTurn"
+			th:value="${strTurn}"> <input type="submit" value="石を置く">
+		<div class="container">
+			<div class="row">
+				<div id="00" class="square">
+					<!-- オセロ盤1行目 -->
+
+					<p th:text="${othelloBoad[0][0]}"></p>
+				</div>
+				<div id="01" class="square">
+
+					<p th:text="${othelloBoad[0][1]}"></p>
+				</div>
+				<div id="02" class="square">
+
+					<p th:text="${othelloBoad[0][2]}"></p>
+				</div>
+				<div id="03" class="square">
+
+					<p th:text="${othelloBoad[0][3]}"></p>
+				</div>
+				<div id="04" class="square">
+
+					<p th:text="${othelloBoad[0][4]}"></p>
+				</div>
+				<div id="05" class="square">
+
+					<p th:text="${othelloBoad[0][5]}"></p>
+				</div>
+				<div id="06" class="square">
+
+					<p th:text="${othelloBoad[0][6]}"></p>
+				</div>
+				<div id="07" class="square">
+
+					<p th:text="${othelloBoad[0][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="10" class="square">
+
+					<p th:text="${othelloBoad[1][0]}"></p>
+				</div>
+				<div id="11" class="square">
+
+					<p th:text="${othelloBoad[1][1]}"></p>
+				</div>
+				<div id="12" class="square">
+
+					<p th:text="${othelloBoad[1][2]}"></p>
+				</div>
+				<div id="13" class="square">
+
+					<p th:text="${othelloBoad[1][3]}"></p>
+				</div>
+				<div id="14" class="square">
+
+					<p th:text="${othelloBoad[1][4]}"></p>
+				</div>
+				<div id="15" class="square">
+
+					<p th:text="${othelloBoad[1][5]}"></p>
+				</div>
+				<div id="16" class="square">
+
+					<p th:text="${othelloBoad[1][6]}"></p>
+				</div>
+				<div id="17" class="square">
+
+					<p th:text="${othelloBoad[1][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="20" class="square">
+
+					<p th:text="${othelloBoad[2][0]}"></p>
+				</div>
+				<div id="21" class="square">
+
+					<p th:text="${othelloBoad[2][1]}"></p>
+				</div>
+				<div id="22" class="square">
+
+					<p th:text="${othelloBoad[2][2]}"></p>
+				</div>
+				<div id="23" class="square">
+
+					<p th:text="${othelloBoad[2][3]}"></p>
+				</div>
+				<div id="24" class="square">
+
+					<p th:text="${othelloBoad[2][4]}"></p>
+				</div>
+				<div id="25" class="square">
+
+					<p th:text="${othelloBoad[2][5]}"></p>
+				</div>
+				<div id="26" class="square">
+
+					<p th:text="${othelloBoad[2][6]}"></p>
+				</div>
+				<div id="27" class="square">
+
+					<p th:text="${othelloBoad[2][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="30" class="square">
+
+					<p th:text="${othelloBoad[3][0]}"></p>
+				</div>
+				<div id="31" class="square">
+
+					<p th:text="${othelloBoad[3][1]}"></p>
+				</div>
+				<div id="32" class="square">
+
+					<p th:text="${othelloBoad[3][2]}"></p>
+				</div>
+				<div id="33" class="square">
+
+					<p th:text="${othelloBoad[3][3]}"></p>
+				</div>
+				<div id="34" class="square">
+
+					<p th:text="${othelloBoad[3][4]}"></p>
+				</div>
+				<div id="35" class="square">
+
+					<p th:text="${othelloBoad[3][5]}"></p>
+				</div>
+				<div id="36" class="square">
+
+					<p th:text="${othelloBoad[3][6]}"></p>
+				</div>
+				<div id="37" class="square">
+
+					<p th:text="${othelloBoad[3][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="40" class="square">
+
+					<p th:text="${othelloBoad[4][0]}"></p>
+				</div>
+				<div id="41" class="square">
+
+					<p th:text="${othelloBoad[4][1]}"></p>
+				</div>
+				<div id="42" class="square">
+
+					<p th:text="${othelloBoad[4][2]}"></p>
+				</div>
+				<div id="43" class="square">
+
+					<p th:text="${othelloBoad[4][3]}"></p>
+				</div>
+				<div id="44" class="square">
+
+					<p th:text="${othelloBoad[4][4]}"></p>
+				</div>
+				<div id="45" class="square">
+
+					<p th:text="${othelloBoad[4][5]}"></p>
+				</div>
+				<div id="46" class="square">
+
+					<p th:text="${othelloBoad[4][6]}"></p>
+				</div>
+				<div id="47" class="square">
+
+					<p th:text="${othelloBoad[4][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="50" class="square">
+
+					<p th:text="${othelloBoad[5][0]}"></p>
+				</div>
+				<div id="51" class="square">
+
+					<p th:text="${othelloBoad[5][1]}"></p>
+				</div>
+				<div id="52" class="square">
+
+					<p th:text="${othelloBoad[5][2]}"></p>
+				</div>
+				<div id="53" class="square">
+
+					<p th:text="${othelloBoad[5][3]}"></p>
+				</div>
+				<div id="54" class="square">
+
+					<p th:text="${othelloBoad[5][4]}"></p>
+				</div>
+				<div id="55" class="square">
+
+					<p th:text="${othelloBoad[5][5]}"></p>
+				</div>
+				<div id="56" class="square">
+
+					<p th:text="${othelloBoad[5][6]}"></p>
+				</div>
+				<div id="57" class="square">
+
+					<p th:text="${othelloBoad[5][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="60" class="square">
+
+					<p th:text="${othelloBoad[6][0]}"></p>
+				</div>
+				<div id="61" class="square">
+
+					<p th:text="${othelloBoad[6][1]}"></p>
+				</div>
+				<div id="62" class="square">
+
+					<p th:text="${othelloBoad[6][2]}"></p>
+				</div>
+				<div id="63" class="square">
+
+					<p th:text="${othelloBoad[6][3]}"></p>
+				</div>
+				<div id="64" class="square">
+
+					<p th:text="${othelloBoad[6][4]}"></p>
+				</div>
+				<div id="65" class="square">
+
+					<p th:text="${othelloBoad[6][5]}"></p>
+				</div>
+				<div id="66" class="square">
+
+					<p th:text="${othelloBoad[6][6]}"></p>
+				</div>
+				<div id="67" class="square">
+
+					<p th:text="${othelloBoad[6][7]}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div id="70" class="square">
+
+					<p th:text="${othelloBoad[7][0]}"></p>
+				</div>
+				<div id="71" class="square">
+
+					<p th:text="${othelloBoad[7][1]}"></p>
+				</div>
+				<div id="72" class="square">
+
+					<p th:text="${othelloBoad[7][2]}"></p>
+				</div>
+				<div id="73" class="square">
+
+					<p th:text="${othelloBoad[7][3]}"></p>
+				</div>
+				<div id="74" class="square">
+
+					<p th:text="${othelloBoad[7][4]}"></p>
+				</div>
+				<div id="75" class="square">
+
+					<p th:text="${othelloBoad[7][5]}"></p>
+				</div>
+				<div id="76" class="square">
+
+					<p th:text="${othelloBoad[7][6]}"></p>
+				</div>
+				<div id="77" class="square">
+
+					<p th:text="${othelloBoad[7][7]}"></p>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script type="module" th:src="@{/js/main.js}"></script>
+</body>
+</html>
