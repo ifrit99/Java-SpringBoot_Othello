@@ -15,8 +15,6 @@ public class OthelloController {
 	@GetMapping("/")
 	public String getOthello(Model model, @ModelAttribute("reqForm") OthelloForm arg_rq) {
 
-		model.addAttribute("title", "オセロ");
-
 		// オセロデータのエンティティを初期化
 		String reqBoad[][] = arg_rq.getOthelloBoad();
 
@@ -49,15 +47,17 @@ public class OthelloController {
 		System.out.println("------------GET------------");
 
 		// エンティティをThymeleafの変数に設定
+		model.addAttribute("title", "オセロ");
 		model.addAttribute("othelloBoad", reqBoad);
 		model.addAttribute("othelloForm", arg_rq);
+		model.addAttribute("strTurn", reqTurn);
 
 		return "index";
 	}
 
 	@PostMapping("/")
 	public String postOthello(Model model, @RequestParam("x") int x, @RequestParam("y") int y,
-			@RequestParam("strTurn") String strTurn, @ModelAttribute("reqForm") OthelloForm session_rq) {
+			 @ModelAttribute("reqForm") OthelloForm session_rq) {
 
 		String[][] reqBoad = session_rq.getOthelloBoad();
 		int rx = session_rq.getX();
@@ -68,11 +68,13 @@ public class OthelloController {
 		if (reqBoad[ry][rx] == null) {
 
 			// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
-//			if (rTurn == "blackStone") {
-				reqBoad[ry][rx] = "●";
-//			} else if (rTurn == "whiteStone") {
-//				reqBoad[ry][rx] = "〇";
-//			}
+			if (rTurn == "blackStone") {
+			reqBoad[ry][rx] = "●";
+			rTurn = "whiteStone";
+			} else if (rTurn == "whiteStone") {
+				reqBoad[ry][rx] = "〇";
+				rTurn = "blackStone";
+			}
 
 		}
 
@@ -99,6 +101,7 @@ public class OthelloController {
 		model.addAttribute("othelloBoad", reqBoad);
 		model.addAttribute("othelloBoad[y][x]", reqBoad[y][x]);
 		model.addAttribute("title", "オセロ");
+		model.addAttribute("strTurn", rTurn);
 		return "index";
 	}
 

@@ -25,9 +25,6 @@ let boardArray = Array.from(squareList);
 // 一次元配列から要素を８つずつ分割して二次元配列に変換
 let boardArray2dim = divideArrIntoPieces(boardArray, 8);
 
-let myStone = "blackStone"; // 自分の石(初期値：黒石)
-let rivalStone = "whiteStone"; // 敵の石(初期値：白石)
-
 let scoreArray = []; // スコア用配列
 
 // 黒石を置く関数をクリックイベント発火で全マス目に配置
@@ -45,26 +42,6 @@ passButton.addEventListener("click", function() {
 	turnChange(myStone);
 });
 
-// 白と黒のターン切替
-function turnChange(stoneColor) {
-	let turnPlate = document.getElementById("turnPlate");
-	if (stoneColor === "blackStone") {
-		myStone = "whiteStone";
-		rivalStone = "blackStone";
-		turnPlate.innerHTML = "白の番";
-		turnPlate.style.backgroundColor = "black";
-		turnPlate.style.color = "white";
-	} else {
-		myStone = "blackStone";
-		rivalStone = "whiteStone";
-		turnPlate.innerHTML = "黒の番";
-		turnPlate.style.backgroundColor = "white";
-		turnPlate.style.color = "black";
-	}
-	// 切り替わったmyStoneをvalueにセット
-	turnInput[0].value = myStone;
-}
-
 // 石を置く関数
 function putStone() {
 
@@ -77,14 +54,27 @@ function putStone() {
 	// クリックした座標をinput valueへ代入する
 	yInput[0].value = idArray[0];
 	xInput[0].value = idArray[1];
-	
-	// ターンチェンジ関数呼び出し
-	turnChange(myStone);
 
 }
 
-// 送信前チェック
+// form要素を取得
+const formElement = document.querySelector("form");
 
+// 送信イベントを監視する
+formElement.addEventListener("submit", handleSubmit);
+
+// 送信イベント発生時
+function handleSubmit(event) {
+	// confirmでユーザーへ確認
+	const isYes = confirm("石を置いてもよろしいですか？")
+
+	// 「いいえ」を選択した場合
+	if (isYes === false) {
+		// 送信イベントをキャンセル
+		alert("キャンセルされました");
+		event.preventDefault();
+	}
+}
 
 /**
  * 配列 arr を n 個ずつに分けて返す

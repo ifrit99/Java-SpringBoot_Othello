@@ -12,16 +12,14 @@
 		<h1 th:text="${title}">Insert h1</h1>
 		<div id="info">
 			<ul>
-				<li><h2 id="turnPlate" class="blackturn">黒の番</h2></li>
+				<li><h2 id="turnPlate" class="blackturn" th:text="${strTurn}">デフォルト</h2></li>
 				<li><button id="pass">パス</button></li>
 			</ul>
 		</div>
 	</header>
-	<form method="post" action="#" th:action="@{/}"
-		onSubmit="return check()">
+	<form method="post" action="#" th:action="@{/}">
 		<input type="hidden" name="x" value=""> <input type="hidden"
-			name="y" value=""> <input type="hidden" name="strTurn"
-			th:value="${strTurn}"> <input type="submit" value="石を置く">
+			name="y" value=""><input type="submit" value="石を置く">
 		<div class="container">
 			<div class="row">
 				<div id="00" class="square">

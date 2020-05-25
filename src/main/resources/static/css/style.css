@@ -1,16 +1,16 @@
 header {
-  text-align: center;
+	text-align: center;
 }
 
 #info ul {
-  list-style-type: none;
-  text-align: center;
+	list-style-type: none;
+	text-align: center;
 }
 
-#info ul > li {
-  display: inline-block;
-  width: 300px;
-  vertical-align: top;
+#info ul>li {
+	display: inline-block;
+	width: 300px;
+	vertical-align: top;
 }
 
 form {
@@ -18,80 +18,86 @@ form {
 }
 
 #turnPlate {
-  font-weight: 600;
-  margin: 0 0;
-  width: 150px;
-  border: 1px solid black;
+	font-weight: 600;
+	margin: 0 0;
+	width: 150px;
+	border: 1px solid black;
 }
 
 #pass {
-  display: inline-block;
-  width: 150px;
-  height: 40px;
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  padding: 5px 40px;
-  margin: 5px 0;
-  font-weight: 600;
-  font-size: medium;
-  cursor: pointer;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+	display: inline-block;
+	width: 150px;
+	height: 40px;
+	background-color: white;
+	color: black;
+	border: 1px solid black;
+	padding: 5px 40px;
+	margin: 5px 0;
+	font-weight: 600;
+	font-size: medium;
+	cursor: pointer;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
 }
 
 #pass:hover {
-  background-color: black;
-  color: white;
+	background-color: black;
+	color: white;
 }
 
 .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
 }
 
 .square {
-  position: relative;
-  border: 1px solid #444;
-  width: 100px;
-  height: 100px;
-  background-color: #0ea14b;
-  cursor: pointer;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+	position: relative;
+	border: 1px solid #444;
+	width: 45px;
+	height: 45px;
+	background-color: #0ea14b;
+	cursor: pointer;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
 }
 
 .square.blackStone::before {
-  content: "";
-  position: absolute;
-  background-color: black;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
+	content: "";
+	position: absolute;
+	background-color: black;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 70%;
+	height: 70%;
+	border-radius: 50%;
 }
 
 .square.whiteStone::before {
-  content: "";
-  position: absolute;
-  background-color: white;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
+	content: "";
+	position: absolute;
+	background-color: white;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 70%;
+	height: 70%;
+	border-radius: 50%;
 }
 
 .square:hover {
-  background-color: skyblue;
-  color: white;
+	background-color: skyblue;
+	color: white;
+}
+
+p {
+	height: 50px;
+	line-height: 15px;
+}
 }
