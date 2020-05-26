@@ -2,13 +2,13 @@ package com.springbootdemo;
 
 public class OthelloForm {
 
-	private int x;
+	private int x;	// オセロ盤インデックスx
 
-	private int y;
+	private int y;	// オセロ盤インデックスy
 
-	private String othelloBoad[][] = new String[8][8];
+	private String othelloBoad[][] = new String[8][8];	// オセロ盤用配列
 	
-	private String strTurn;
+	private String strTurn;	// 黒白ターン切替用
 
 	public OthelloForm() {
 

@@ -66,7 +66,7 @@ public class OthelloController {
 
 		// クリックしたマス目が空なら石を置く
 		if (reqBoad[ry][rx] == null) {
-
+			
 			// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
 			if (rTurn == "blackStone") {
 			reqBoad[ry][rx] = "●";
