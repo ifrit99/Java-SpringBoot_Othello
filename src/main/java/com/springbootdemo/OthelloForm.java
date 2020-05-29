@@ -9,6 +9,10 @@ public class OthelloForm {
 	private String othelloBoad[][] = new String[8][8];	// オセロ盤用配列
 	
 	private String strTurn;	// 黒白ターン切替用
+	
+	private String myStone;	// 自分の石
+	
+	private String rivalStone; // 敵の石
 
 	public OthelloForm() {
 
@@ -45,5 +49,22 @@ public class OthelloForm {
 	public void setStrTurn(String strTurn) {
 		this.strTurn = strTurn;
 	}
+
+	public String getMyStone() {
+		return myStone;
+	}
+
+	public void setMyStone(String myStone) {
+		this.myStone = myStone;
+	}
+
+	public String getRivalStone() {
+		return rivalStone;
+	}
+
+	public void setRivalStone(String rivalStone) {
+		this.rivalStone = rivalStone;
+	}
+
 
 }

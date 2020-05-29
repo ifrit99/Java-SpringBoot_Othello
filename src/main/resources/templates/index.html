@@ -13,6 +13,7 @@
 		<div id="info">
 			<ul>
 				<li><h2 id="turnPlate" class="blackturn" th:text="${strTurn}">デフォルト</h2></li>
+				<li th:if="${cantput}" th:text="${cantput}">
 				<li><button id="pass">パス</button></li>
 			</ul>
 		</div>
