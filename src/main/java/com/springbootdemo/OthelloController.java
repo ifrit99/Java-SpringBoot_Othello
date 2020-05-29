@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @SessionAttributes(names = "reqForm")
@@ -19,7 +20,7 @@ public class OthelloController {
 	@Autowired
 	OthelloService othelloservice;
 
-	@GetMapping("/")
+	@GetMapping
 	public String getOthello(Model model, @ModelAttribute("reqForm") OthelloForm arg_rq) {
 
 		// オセロデータのエンティティを初期化
@@ -30,7 +31,7 @@ public class OthelloController {
 
 		// 自分の石のエンティティを初期化
 		String reqMyStone = arg_rq.getMyStone();
-		
+
 		// 敵の石のエンティティを初期化
 		String reqRivalStone = arg_rq.getRivalStone();
 
@@ -43,7 +44,6 @@ public class OthelloController {
 		arg_rq.setMyStone(reqMyStone);
 		reqRivalStone = "〇";
 		arg_rq.setRivalStone(reqRivalStone);
-		
 
 		// 初期配置の中央の石4つを配列へ入れておく
 		reqBoad[3][3] = "●";
@@ -75,7 +75,7 @@ public class OthelloController {
 		return "index";
 	}
 
-	@PostMapping("/")
+	@PostMapping(params = "postOthello")
 	public String postOthello(Model model, @RequestParam("x") int x, @RequestParam("y") int y,
 			@ModelAttribute("reqForm") OthelloForm session_rq) {
 
@@ -90,15 +90,23 @@ public class OthelloController {
 		// クリックしたマス目が空なら石を置く
 		if (reqBoad[ry][rx] == null) {
 
-			// 8方向の反転可否をチェックする(反転モードオフ)
-			Map<String, Integer> rightCheckMap = othelloservice.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> leftCheckMap = othelloservice.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> upCheckMap = othelloservice.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> downCheckMap = othelloservice.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> rightUpCheckMap = othelloservice.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> leftUpCheckMap = othelloservice.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> rightDownCheckMap = othelloservice.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone, reqRivalStone, false);
-			Map<String, Integer> leftDownCheckMap = othelloservice.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone, reqRivalStone, false);
+			// 8方向の反転可否をチェックする(反転モードfalse)
+			Map<String, Integer> rightCheckMap = othelloservice.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> leftCheckMap = othelloservice.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> upCheckMap = othelloservice.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone,
+					false);
+			Map<String, Integer> downCheckMap = othelloservice.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> rightUpCheckMap = othelloservice.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> leftUpCheckMap = othelloservice.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> rightDownCheckMap = othelloservice.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone,
+					reqRivalStone, false);
+			Map<String, Integer> leftDownCheckMap = othelloservice.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone,
+					reqRivalStone, false);
 
 			// 反転対象が見つかったかのフラグを変数へ格納する
 			int rightCheckFlag = rightCheckMap.get("checkFlag");
@@ -128,9 +136,9 @@ public class OthelloController {
 			if (rightCheckFlag == 1 || leftCheckFlag == 1 || upCheckFlag == 1 || downCheckFlag == 1
 					|| rightUpCheckFlag == 1 || leftUpCheckFlag == 1 || rightDownCheckFlag == 1
 					|| leftDownCheckFlag == 1) {
-				// 反転対象が8方向いずれかにあれば石を置く
+				// 反転対象が8方向いずれかにあれば石を置く(反転モードtrue)
 				reqBoad[ry][rx] = reqMyStone;
-				
+
 				if (rightCheckFlag == 1) {
 					othelloservice.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone, reqRivalStone, true);
 				}
@@ -155,7 +163,7 @@ public class OthelloController {
 				if (leftDownCheckFlag == 1) {
 					othelloservice.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
-				
+
 				// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
 				if (rTurn == "blackStone") {
 					// ターンチェンジ
@@ -174,10 +182,10 @@ public class OthelloController {
 			}
 
 		}
-		
+
 		// 自分の石をセット
 		session_rq.setMyStone(reqMyStone);
-		
+
 		// 敵の石をセット
 		session_rq.setRivalStone(reqRivalStone);
 
@@ -195,6 +203,17 @@ public class OthelloController {
 		model.addAttribute("title", "オセロ");
 		model.addAttribute("strTurn", rTurn);
 		return "index";
+	}
+
+	// リセットボタンでセッション破棄
+	@PostMapping(params = "reset")
+	public String reset(SessionStatus sessionStatus) {
+		
+		// セッション破棄
+		sessionStatus.setComplete();
+
+		return "index";
+
 	}
 
 	@ModelAttribute("reqForm")

@@ -20,7 +20,8 @@
 	</header>
 	<form method="post" action="#" th:action="@{/}">
 		<input type="hidden" name="x" value=""> <input type="hidden"
-			name="y" value=""><input type="submit" value="石を置く">
+			name="y" value=""><input type="submit" name="postOthello"
+			value="石を置く">
 		<div class="container">
 			<div class="row">
 				<div id="00" class="square">
@@ -296,6 +297,7 @@
 				</div>
 			</div>
 		</div>
+		<br> <input type="submit" name="reset" value="リセット">
 	</form>
 	<script type="module" th:src="@{/js/main.js}"></script>
 </body>
