@@ -27,6 +27,8 @@ let boardArray2dim = divideArrIntoPieces(boardArray, 8);
 
 let scoreArray = []; // スコア用配列
 
+var beforeClickID = ""; // 直前にクリックしたマス目要素のID格納用
+
 // 黒石を置く関数をクリックイベント発火で全マス目に配置
 const len = boardArray2dim.length;
 const len2 = boardArray2dim[0].length;
@@ -55,6 +57,16 @@ function putStone() {
 	yInput[0].value = idArray[0];
 	xInput[0].value = idArray[1];
 
+	console.log(beforeClickID);
+	if (beforeClickID.length) {
+		document.getElementById(beforeClickID).style.backgroundColor = "#0ea14b";
+	}
+
+	// クリックしたマス目の色変更
+	this.style.background = "pink";
+
+	// クリックした要素をグローバル変数へ格納
+	beforeClickID = attrID;
 }
 
 // form要素を取得
@@ -65,14 +77,42 @@ formElement.addEventListener("submit", handleSubmit);
 
 // 送信イベント発生時
 function handleSubmit(event) {
-	// confirmでユーザーへ確認
-	const isYes = confirm("石を置いてもよろしいですか？")
 
-	// 「いいえ」を選択した場合
-	if (isYes === false) {
-		// 送信イベントをキャンセル
-		alert("キャンセルされました");
-		event.preventDefault();
+	// フォーム送信前の確認メッセージ
+	if (document.activeElement === this[3]) {
+		// confirmでユーザーへ確認
+		const isYes = confirm("石を置いてもよろしいですか？")
+
+		// 「いいえ」を選択した場合
+		if (isYes === false) {
+			// 送信イベントをキャンセル
+			alert("キャンセルされました");
+			event.preventDefault();
+		} else if (yInput[0].value === "" && xInput[0].value === "") {
+			// 送信イベントをキャンセル
+			alert("石を置く場所をクリックして下さい！");
+			event.preventDefault();
+		}
+	} else if (document.activeElement === this[4]) {
+		// confirmでユーザーへ確認
+		const isYes = confirm("リセットしてもよろしいですか？")
+
+		// 「いいえ」を選択した場合
+		if (isYes === false) {
+			// 送信イベントをキャンセル
+			alert("キャンセルされました");
+			event.preventDefault();
+		}
+	} else if (document.activeElement === this[0]) {
+		// confirmでユーザーへ確認
+		const isYes = confirm("パスしてもよろしいですか？")
+
+		// 「いいえ」を選択した場合
+		if (isYes === false) {
+			// 送信イベントをキャンセル
+			alert("キャンセルされました");
+			event.preventDefault();
+		}
 	}
 }
 

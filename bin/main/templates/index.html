@@ -8,20 +8,21 @@
 </head>
 
 <body>
-	<header>
-		<h1 th:text="${title}">Insert h1</h1>
-		<div id="info">
-			<ul>
-				<li><h2 id="turnPlate" class="blackturn" th:text="${strTurn}">デフォルト</h2></li>
-				<li th:if="${cantput}" th:text="${cantput}">
-				<li><button id="pass">パス</button></li>
-			</ul>
-		</div>
-	</header>
 	<form method="post" action="#" th:action="@{/}">
+		<header>
+			<h1 th:text="${title}">Insert h1</h1>
+			<div id="info">
+				<ul>
+					<li><h2 id="turnPlate" class="blackturn" th:text="${strTurn}">デフォルト</h2></li>
+					<li><nobr id="cantput" th:if="${cantput}" th:text="${cantput}"></nobr></li>
+					<li><input type="submit" id="pass" name="pass" value="パス"></li>
+				</ul>
+			</div>
+		</header>
+
 		<input type="hidden" name="x" value=""> <input type="hidden"
-			name="y" value=""><input type="submit" name="postOthello"
-			value="石を置く">
+			name="y" value=""><input type="submit" id="pass"
+			name="postOthello" value="石を置く">
 		<div class="container">
 			<div class="row">
 				<div id="00" class="square">
@@ -297,7 +298,7 @@
 				</div>
 			</div>
 		</div>
-		<br> <input type="submit" name="reset" value="リセット">
+		<br> <input type="submit" id="pass" name="reset" value="リセット">
 	</form>
 	<script type="module" th:src="@{/js/main.js}"></script>
 </body>

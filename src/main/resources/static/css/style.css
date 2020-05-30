@@ -100,4 +100,12 @@ p {
 	height: 50px;
 	line-height: 15px;
 }
+
+#cantput {
+	font-weight: 600;
+	margin: 0 0;
+	width: 150px;
+	border: 1px solid black;
+	color: red;
+	font-size: large;
 }

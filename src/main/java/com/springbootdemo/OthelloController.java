@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,13 +59,13 @@ public class OthelloController {
 		setRequestForm(arg_rq);
 
 		// エンティティの中身を確認
-		System.out.println("------------GET------------");
-		System.out.println(reqMyStone);
+//		System.out.println("------------GET------------");
+//		System.out.println(reqMyStone);
 //		System.out.println(reqBoad[3][3]);
 //		System.out.println(reqBoad[4][3]);
 //		System.out.println(reqBoad[3][4]);
 //		System.out.println(reqBoad[4][4]);
-		System.out.println("------------GET------------");
+//		System.out.println("------------GET------------");
 
 		// エンティティをThymeleafの変数に設定
 		model.addAttribute("title", "オセロ");
@@ -119,19 +120,19 @@ public class OthelloController {
 			int leftDownCheckFlag = leftDownCheckMap.get("checkFlag");
 
 			// デバッグ用変数
-			int reverseXtest = rightCheckMap.get("reverseX");
-			int reverseYtest = rightCheckMap.get("reverseY");
+//			int reverseXtest = rightCheckMap.get("reverseX");
+//			int reverseYtest = rightCheckMap.get("reverseY");
 
 			// エンティティの中身を確認
-			System.out.println("------------POST-----------");
-			System.out.println(rightCheckMap.get("checkFlag"));
-			System.out.println(reverseXtest);
-			System.out.println(reverseYtest);
+//			System.out.println("------------POST-----------");
+//			System.out.println(rightCheckMap.get("checkFlag"));
+//			System.out.println(reverseXtest);
+//			System.out.println(reverseYtest);
 //			System.out.println(reqBoad[3][3]);
 //			System.out.println(reqBoad[4][3]);
 //			System.out.println(reqBoad[3][4]);
 //			System.out.println(reqBoad[4][4]);
-			System.out.println("------------POST------------");
+//			System.out.println("------------POST------------");
 
 			if (rightCheckFlag == 1 || leftCheckFlag == 1 || upCheckFlag == 1 || downCheckFlag == 1
 					|| rightUpCheckFlag == 1 || leftUpCheckFlag == 1 || rightDownCheckFlag == 1
@@ -178,7 +179,7 @@ public class OthelloController {
 				}
 
 			} else {
-				model.addAttribute("cantput", "そこには置けません");
+				model.addAttribute("cantput", "エラー：そこには置けません");
 			}
 
 		}
@@ -208,12 +209,54 @@ public class OthelloController {
 	// リセットボタンでセッション破棄
 	@PostMapping(params = "reset")
 	public String reset(SessionStatus sessionStatus) {
-		
+
 		// セッション破棄
 		sessionStatus.setComplete();
 
-		return "index";
+		return "redirect:/";
 
+	}
+
+	// パスボタンで自分のターンをパス
+	@PostMapping(params = "pass")
+	public String pass(Model model, @ModelAttribute("reqForm") OthelloForm session_rq, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			// セッションから値を取り出す
+			String rTurn = session_rq.getStrTurn();
+			String reqMyStone = session_rq.getMyStone();
+			String reqRivalStone = session_rq.getRivalStone();
+
+			// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
+			if (rTurn == "blackStone") {
+				// ターンチェンジ
+				rTurn = "whiteStone";
+				reqMyStone = "〇";
+				reqRivalStone = "●";
+			} else if (rTurn == "whiteStone") {
+				// ターンチェンジ
+				rTurn = "blackStone";
+				reqMyStone = "●";
+				reqRivalStone = "〇";
+			}
+
+			// 自分の石をセット
+			session_rq.setMyStone(reqMyStone);
+
+			// 敵の石をセット
+			session_rq.setRivalStone(reqRivalStone);
+
+			// ターンをセット
+			session_rq.setStrTurn(rTurn);
+
+			// セッション保存
+			setRequestForm(session_rq);
+
+			model.addAttribute("title", "オセロ");
+			model.addAttribute("strTurn", rTurn);
+
+		}
+		return "index";
 	}
 
 	@ModelAttribute("reqForm")

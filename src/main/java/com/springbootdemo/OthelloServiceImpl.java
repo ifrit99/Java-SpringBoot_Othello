@@ -84,17 +84,17 @@ public class OthelloServiceImpl implements OthelloService {
 		resultMap.put("reverseY", -1);
 		resultMap.put("checkFlag", 1);
 
-		System.out.println("---------reverse if前----------");
-		System.out.println(othelloBoad[y][x]);
-		System.out.println("---------reverse if前----------");
+//		System.out.println("---------reverse if前----------");
+//		System.out.println(othelloBoad[y][x]);
+//		System.out.println("---------reverse if前----------");
 		// 反転処理
 		if (othelloBoad[y][x] == rivalStone) {
 			othelloBoad[y][x] = myStone;
 			resultMap.put("checkFlag", 0);
 		}
-		System.out.println("---------reverse if後----------");
-		System.out.println(othelloBoad[y][x]);
-		System.out.println("---------reverse if後----------");
+//		System.out.println("---------reverse if後----------");
+//		System.out.println(othelloBoad[y][x]);
+//		System.out.println("---------reverse if後----------");
 		return resultMap;
 	}
 

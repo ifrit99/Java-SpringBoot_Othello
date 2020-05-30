@@ -1,9 +1,13 @@
 package com.springbootdemo;
 
+import javax.validation.constraints.Null;
+
 public class OthelloForm {
 
+	@Null
 	private int x;	// オセロ盤インデックスx
 
+	@Null
 	private int y;	// オセロ盤インデックスy
 
 	private String othelloBoad[][] = new String[8][8];	// オセロ盤用配列
