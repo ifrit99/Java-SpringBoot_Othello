@@ -1,22 +1,22 @@
 package com.springbootdemo;
 
-import javax.validation.constraints.Null;
+import java.util.Map;
 
 public class OthelloForm {
 
-	@Null
-	private int x;	// オセロ盤インデックスx
+	private int x; // オセロ盤インデックスx
 
-	@Null
-	private int y;	// オセロ盤インデックスy
+	private int y; // オセロ盤インデックスy
 
-	private String othelloBoad[][] = new String[8][8];	// オセロ盤用配列
-	
-	private String strTurn;	// 黒白ターン切替用
-	
-	private String myStone;	// 自分の石
-	
+	private String othelloBoad[][] = new String[8][8]; // オセロ盤用配列
+
+	private String strTurn; // 黒白ターン切替用
+
+	private String myStone; // 自分の石
+
 	private String rivalStone; // 敵の石
+	
+	private Map<String,Integer> countMap;	// 石カウント用Map
 
 	public OthelloForm() {
 
@@ -70,5 +70,12 @@ public class OthelloForm {
 		this.rivalStone = rivalStone;
 	}
 
+	public Map<String,Integer> getCountMap() {
+		return countMap;
+	}
+
+	public void setCountMap(Map<String,Integer> countMap) {
+		this.countMap = countMap;
+	}
 
 }

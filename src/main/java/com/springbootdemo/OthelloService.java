@@ -13,4 +13,7 @@ public interface OthelloService {
 	// 反転メソッド
 	public Map<String,Integer> reverse(int x, int y, Map<String,Integer> resultMap, String othelloBoad[][], String myStone, String rivalStone);
 	
+	// 石カウント
+	public Map<String,Integer> count(String othelloBoad[][]);
+	
 }

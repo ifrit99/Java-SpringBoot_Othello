@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,7 @@ public class OthelloController {
 
 	// OthelloServiceのインスタンスをDIコンテナから取り出す
 	@Autowired
-	OthelloService othelloservice;
+	OthelloService othelloService;
 
 	@GetMapping
 	public String getOthello(Model model, @ModelAttribute("reqForm") OthelloForm arg_rq) {
@@ -36,6 +35,9 @@ public class OthelloController {
 		// 敵の石のエンティティを初期化
 		String reqRivalStone = arg_rq.getRivalStone();
 
+		// 石カウントMapのエンティティを初期化
+		Map<String, Integer> reqCountMap = arg_rq.getCountMap();
+
 		// 最初は黒のターンをセット
 		reqTurn = "blackStone";
 		arg_rq.setStrTurn(reqTurn);
@@ -51,9 +53,12 @@ public class OthelloController {
 		reqBoad[4][3] = "〇";
 		reqBoad[3][4] = "〇";
 		reqBoad[4][4] = "●";
-
 		// オセロ盤面配列をセット
 		arg_rq.setOthelloBoad(reqBoad);
+
+		// 石をカウントしてセット
+		reqCountMap = othelloService.count(reqBoad);
+		arg_rq.setCountMap(reqCountMap);
 
 		// セッション保存
 		setRequestForm(arg_rq);
@@ -72,6 +77,8 @@ public class OthelloController {
 		model.addAttribute("othelloBoad", reqBoad);
 		model.addAttribute("othelloForm", arg_rq);
 		model.addAttribute("strTurn", reqTurn);
+		model.addAttribute("blackCount", reqCountMap.get("blackStone"));
+		model.addAttribute("whiteCount", reqCountMap.get("whiteStone"));
 
 		return "index";
 	}
@@ -87,26 +94,27 @@ public class OthelloController {
 		String rTurn = session_rq.getStrTurn();
 		String reqMyStone = session_rq.getMyStone();
 		String reqRivalStone = session_rq.getRivalStone();
+		Map<String, Integer> reqCountMap = session_rq.getCountMap();
 
 		// クリックしたマス目が空なら石を置く
 		if (reqBoad[ry][rx] == null) {
 
 			// 8方向の反転可否をチェックする(反転モードfalse)
-			Map<String, Integer> rightCheckMap = othelloservice.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone,
+			Map<String, Integer> rightCheckMap = othelloService.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> leftCheckMap = othelloservice.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone,
+			Map<String, Integer> leftCheckMap = othelloService.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> upCheckMap = othelloservice.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone,
+			Map<String, Integer> upCheckMap = othelloService.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone,
 					false);
-			Map<String, Integer> downCheckMap = othelloservice.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone,
+			Map<String, Integer> downCheckMap = othelloService.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> rightUpCheckMap = othelloservice.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone,
+			Map<String, Integer> rightUpCheckMap = othelloService.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> leftUpCheckMap = othelloservice.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone,
+			Map<String, Integer> leftUpCheckMap = othelloService.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> rightDownCheckMap = othelloservice.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone,
+			Map<String, Integer> rightDownCheckMap = othelloService.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone,
 					reqRivalStone, false);
-			Map<String, Integer> leftDownCheckMap = othelloservice.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone,
+			Map<String, Integer> leftDownCheckMap = othelloService.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone,
 					reqRivalStone, false);
 
 			// 反転対象が見つかったかのフラグを変数へ格納する
@@ -141,28 +149,28 @@ public class OthelloController {
 				reqBoad[ry][rx] = reqMyStone;
 
 				if (rightCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, 1, 0, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (leftCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, -1, 0, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (upCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, 0, -1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (downCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, 0, 1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (rightUpCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, 1, -1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (leftUpCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, -1, -1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (rightDownCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, 1, 1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 				if (leftDownCheckFlag == 1) {
-					othelloservice.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone, reqRivalStone, true);
+					othelloService.boadMove(rx, ry, -1, 1, reqBoad, reqMyStone, reqRivalStone, true);
 				}
 
 				// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
@@ -178,10 +186,15 @@ public class OthelloController {
 					reqRivalStone = "〇";
 				}
 
+				// 石をカウント
+				reqCountMap = othelloService.count(reqBoad);
+
 			} else {
 				model.addAttribute("cantput", "エラー：そこには置けません");
 			}
 
+		} else {
+			model.addAttribute("cantput", "エラー：既に石が置かれています");
 		}
 
 		// 自分の石をセット
@@ -196,6 +209,9 @@ public class OthelloController {
 		// オセロ盤面配列をセット
 		session_rq.setOthelloBoad(reqBoad);
 
+		// 石カウントMapをセット
+		session_rq.setCountMap(reqCountMap);
+
 		// セッション保存
 		setRequestForm(session_rq);
 
@@ -203,6 +219,9 @@ public class OthelloController {
 		model.addAttribute("othelloBoad[y][x]", reqBoad[y][x]);
 		model.addAttribute("title", "オセロ");
 		model.addAttribute("strTurn", rTurn);
+		model.addAttribute("blackCount", reqCountMap.get("blackStone"));
+		model.addAttribute("whiteCount", reqCountMap.get("whiteStone"));
+
 		return "index";
 	}
 
@@ -219,43 +238,61 @@ public class OthelloController {
 
 	// パスボタンで自分のターンをパス
 	@PostMapping(params = "pass")
-	public String pass(Model model, @ModelAttribute("reqForm") OthelloForm session_rq, BindingResult bindingResult) {
+	public String pass(Model model, @ModelAttribute("reqForm") OthelloForm session_rq, @RequestParam("x") int x,
+			@RequestParam("y") int y) {
 
-		if (bindingResult.hasErrors()) {
-			// セッションから値を取り出す
-			String rTurn = session_rq.getStrTurn();
-			String reqMyStone = session_rq.getMyStone();
-			String reqRivalStone = session_rq.getRivalStone();
+		// セッションから値を取り出す
+		String rTurn = session_rq.getStrTurn();
+		String reqMyStone = session_rq.getMyStone();
+		String reqRivalStone = session_rq.getRivalStone();
+		int rx = session_rq.getX();
+		int ry = session_rq.getY();
+		String[][] reqBoad = session_rq.getOthelloBoad();
+		Map<String, Integer> reqCountMap = session_rq.getCountMap();
 
-			// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
-			if (rTurn == "blackStone") {
-				// ターンチェンジ
-				rTurn = "whiteStone";
-				reqMyStone = "〇";
-				reqRivalStone = "●";
-			} else if (rTurn == "whiteStone") {
-				// ターンチェンジ
-				rTurn = "blackStone";
-				reqMyStone = "●";
-				reqRivalStone = "〇";
-			}
+		System.out.println("------------pass---------------");
+		System.out.println(rx);
+		System.out.println(ry);
+		System.out.println("------------pass---------------");
 
-			// 自分の石をセット
-			session_rq.setMyStone(reqMyStone);
-
-			// 敵の石をセット
-			session_rq.setRivalStone(reqRivalStone);
-
-			// ターンをセット
-			session_rq.setStrTurn(rTurn);
-
-			// セッション保存
-			setRequestForm(session_rq);
-
-			model.addAttribute("title", "オセロ");
-			model.addAttribute("strTurn", rTurn);
-
+		// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
+		if (rTurn == "blackStone") {
+			// ターンチェンジ
+			rTurn = "whiteStone";
+			reqMyStone = "〇";
+			reqRivalStone = "●";
+		} else if (rTurn == "whiteStone") {
+			// ターンチェンジ
+			rTurn = "blackStone";
+			reqMyStone = "●";
+			reqRivalStone = "〇";
 		}
+
+		// 自分の石をセット
+		session_rq.setMyStone(reqMyStone);
+
+		// 敵の石をセット
+		session_rq.setRivalStone(reqRivalStone);
+
+		// ターンをセット
+		session_rq.setStrTurn(rTurn);
+
+		// オセロ盤面配列をセット
+		session_rq.setOthelloBoad(reqBoad);
+
+		// 石カウントMapをセット
+		session_rq.setCountMap(reqCountMap);
+
+		// セッション保存
+		setRequestForm(session_rq);
+
+		model.addAttribute("othelloBoad", reqBoad);
+		model.addAttribute("othelloBoad[y][x]", reqBoad[y][x]);
+		model.addAttribute("title", "オセロ");
+		model.addAttribute("strTurn", rTurn);
+		model.addAttribute("blackCount", reqCountMap.get("blackStone"));
+		model.addAttribute("whiteCount", reqCountMap.get("whiteStone"));
+
 		return "index";
 	}
 

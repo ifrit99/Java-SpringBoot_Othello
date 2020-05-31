@@ -14,14 +14,15 @@
 			<div id="info">
 				<ul>
 					<li><h2 id="turnPlate" class="blackturn" th:text="${strTurn}">デフォルト</h2></li>
+					<li><p th:text="'黒：' + ${blackCount}"></p><p th:text="'白：' + ${whiteCount}"></p></li>
 					<li><nobr id="cantput" th:if="${cantput}" th:text="${cantput}"></nobr></li>
 					<li><input type="submit" id="pass" name="pass" value="パス"></li>
 				</ul>
 			</div>
 		</header>
 
-		<input type="hidden" name="x" value=""> <input type="hidden"
-			name="y" value=""><input type="submit" id="pass"
+		<input type="hidden" name="x" value="0"> <input type="hidden"
+			name="y" value="0"><input type="submit" id="pass"
 			name="postOthello" value="石を置く">
 		<div class="container">
 			<div class="row">
