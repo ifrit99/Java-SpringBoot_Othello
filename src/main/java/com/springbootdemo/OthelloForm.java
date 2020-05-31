@@ -8,7 +8,7 @@ public class OthelloForm {
 
 	private int y; // オセロ盤インデックスy
 
-	private String othelloBoad[][] = new String[8][8]; // オセロ盤用配列
+	private String othelloBoad[][] = new String[9][9]; // オセロ盤用配列
 
 	private String strTurn; // 黒白ターン切替用
 

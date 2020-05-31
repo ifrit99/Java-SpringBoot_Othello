@@ -88,7 +88,7 @@ function handleSubmit(event) {
 			// 送信イベントをキャンセル
 			alert("キャンセルされました");
 			event.preventDefault();
-		} else if (yInput[0].value === "0" && xInput[0].value === "0") {
+		} else if (yInput[0].value === "8" && xInput[0].value === "8") {
 			// 送信イベントをキャンセル
 			alert("石を置く場所をクリックして下さい！");
 			event.preventDefault();

@@ -39,7 +39,7 @@ public class OthelloController {
 		Map<String, Integer> reqCountMap = arg_rq.getCountMap();
 
 		// 最初は黒のターンをセット
-		reqTurn = "blackStone";
+		reqTurn = "黒の番です";
 		arg_rq.setStrTurn(reqTurn);
 
 		// 最初は黒の番なので自分の石は"●"、敵の石は"〇"
@@ -174,14 +174,14 @@ public class OthelloController {
 				}
 
 				// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
-				if (rTurn == "blackStone") {
+				if (rTurn == "黒の番です") {
 					// ターンチェンジ
-					rTurn = "whiteStone";
+					rTurn = "白の番です";
 					reqMyStone = "〇";
 					reqRivalStone = "●";
-				} else if (rTurn == "whiteStone") {
+				} else if (rTurn == "白の番です") {
 					// ターンチェンジ
-					rTurn = "blackStone";
+					rTurn = "黒の番です";
 					reqMyStone = "●";
 					reqRivalStone = "〇";
 				}
@@ -211,6 +211,20 @@ public class OthelloController {
 
 		// 石カウントMapをセット
 		session_rq.setCountMap(reqCountMap);
+
+		// 勝敗判定
+		if (reqCountMap.get("blackStone") + reqCountMap.get("whiteStone") == 64) {
+			// 黒勝利時
+			if (reqCountMap.get("blackStone") > reqCountMap.get("whiteStone")) {
+				model.addAttribute("judge", "ゲームセット！黒の勝ちです");
+				// 白勝利時
+			} else if (reqCountMap.get("blackStone") < reqCountMap.get("whiteStone")) {
+				model.addAttribute("judge", "ゲームセット！白の勝ちです");
+				// 引き分け時
+			} else if (reqCountMap.get("blackStone") == reqCountMap.get("whiteStone")) {
+				model.addAttribute("judge", "ゲームセット！引き分けです");
+			}
+		}
 
 		// セッション保存
 		setRequestForm(session_rq);
@@ -245,25 +259,25 @@ public class OthelloController {
 		String rTurn = session_rq.getStrTurn();
 		String reqMyStone = session_rq.getMyStone();
 		String reqRivalStone = session_rq.getRivalStone();
-		int rx = session_rq.getX();
-		int ry = session_rq.getY();
+//		int rx = session_rq.getX();
+//		int ry = session_rq.getY();
 		String[][] reqBoad = session_rq.getOthelloBoad();
 		Map<String, Integer> reqCountMap = session_rq.getCountMap();
 
-		System.out.println("------------pass---------------");
-		System.out.println(rx);
-		System.out.println(ry);
-		System.out.println("------------pass---------------");
+//		System.out.println("------------pass---------------");
+//		System.out.println(rx);
+//		System.out.println(ry);
+//		System.out.println("------------pass---------------");
 
 		// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
-		if (rTurn == "blackStone") {
+		if (rTurn == "黒の番です") {
 			// ターンチェンジ
-			rTurn = "whiteStone";
+			rTurn = "白の番です";
 			reqMyStone = "〇";
 			reqRivalStone = "●";
-		} else if (rTurn == "whiteStone") {
+		} else if (rTurn == "白の番です") {
 			// ターンチェンジ
-			rTurn = "blackStone";
+			rTurn = "黒の番です";
 			reqMyStone = "●";
 			reqRivalStone = "〇";
 		}
