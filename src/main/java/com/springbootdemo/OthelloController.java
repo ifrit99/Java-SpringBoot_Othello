@@ -216,13 +216,13 @@ public class OthelloController {
 		if (reqCountMap.get("blackStone") + reqCountMap.get("whiteStone") == 64) {
 			// 黒勝利時
 			if (reqCountMap.get("blackStone") > reqCountMap.get("whiteStone")) {
-				model.addAttribute("judge", "ゲームセット！黒の勝ちです");
+				model.addAttribute("judge", "ゲームセット！黒の勝利");
 				// 白勝利時
 			} else if (reqCountMap.get("blackStone") < reqCountMap.get("whiteStone")) {
-				model.addAttribute("judge", "ゲームセット！白の勝ちです");
+				model.addAttribute("judge", "ゲームセット！白の勝利");
 				// 引き分け時
 			} else if (reqCountMap.get("blackStone") == reqCountMap.get("whiteStone")) {
-				model.addAttribute("judge", "ゲームセット！引き分けです");
+				model.addAttribute("judge", "ゲームセット！ドロー");
 			}
 		}
 

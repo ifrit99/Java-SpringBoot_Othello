@@ -17,7 +17,7 @@
 					<li><p id="scoreBoad"
 							th:text="'黒：' + ${blackCount} + '   ' + '白：' + ${whiteCount}"></p></li>
 					<li><nobr id="cantput" th:if="${cantput}" th:text="${cantput}"></nobr></li>
-					<li><p th:text="${judge}"></p></li>
+					<li><p id="scoreBoad" th:text="${judge}"></p></li>
 					<li><input type="submit" id="pass" name="pass" value="パス"></li>
 				</ul>
 			</div>
@@ -28,9 +28,9 @@
 			name="postOthello" value="石を置く">
 		<div class="container">
 			<div class="row">
+
 				<div id="00" class="square"
 					th:classappend="|${othelloBoad[0][0] == '●' ? 'blackStone' : ''} ${othelloBoad[0][0] == '〇' ? 'whiteStone' : ''}|">
-					<!-- オセロ盤1行目 -->
 
 					<p th:text="${othelloBoad[0][0]}"></p>
 				</div>

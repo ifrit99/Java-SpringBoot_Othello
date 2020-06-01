@@ -9,6 +9,9 @@
 ////
 ////ようなイメージ
 
+// containerクラスの要素を取得
+const container = document.querySelector(".container");
+
 // .squareセレクタの要素を取得
 let squareList = document.querySelectorAll(".square");
 
