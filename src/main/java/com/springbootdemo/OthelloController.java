@@ -1,5 +1,6 @@
 package com.springbootdemo;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.springbootdemo.entity.Othello;
+import com.springbootdemo.service.OthelloDbService;
+
 @Controller
 @SessionAttributes(names = "reqForm")
 public class OthelloController {
+
+	private final OthelloDbService othelloDbService;
+
+	// OthelloDbServiceのインスタンスをDIコンテナから取り出す
+	@Autowired
+	public OthelloController(OthelloDbService othelloDbService) {
+		this.othelloDbService = othelloDbService;
+	}
 
 	// OthelloServiceのインスタンスをDIコンテナから取り出す
 	@Autowired
@@ -235,6 +247,18 @@ public class OthelloController {
 		model.addAttribute("strTurn", rTurn);
 		model.addAttribute("blackCount", reqCountMap.get("blackStone"));
 		model.addAttribute("whiteCount", reqCountMap.get("whiteStone"));
+
+		// エンティティ詰めなおし
+		Othello othello = new Othello();
+		othello.setOthelloBoad(session_rq.getOthelloBoad());
+		othello.setStrTurn(session_rq.getStrTurn());
+		othello.setMyStone(session_rq.getMyStone());
+		othello.setRivalStone(session_rq.getRivalStone());
+		othello.setCountMap(session_rq.getCountMap());
+		othello.setCreated(LocalDateTime.now());
+
+		// H2DBへ保存
+		othelloDbService.save(othello);
 
 		return "index";
 	}
