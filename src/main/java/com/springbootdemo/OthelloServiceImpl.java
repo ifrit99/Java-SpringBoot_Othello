@@ -87,11 +87,13 @@ public class OthelloServiceImpl implements OthelloService {
 //		System.out.println("---------reverse if前----------");
 //		System.out.println(othelloBoad[y][x]);
 //		System.out.println("---------reverse if前----------");
+
 		// 反転処理
 		if (othelloBoad[y][x] == rivalStone) {
 			othelloBoad[y][x] = myStone;
 			resultMap.put("checkFlag", 0);
 		}
+
 //		System.out.println("---------reverse if後----------");
 //		System.out.println(othelloBoad[y][x]);
 //		System.out.println("---------reverse if後----------");
@@ -101,15 +103,15 @@ public class OthelloServiceImpl implements OthelloService {
 	@Override
 	public Map<String, Integer> count(String[][] othelloBoad) {
 		// 返り値用のMap
-		Map<String,Integer> countMap = new LinkedHashMap<>();
-		
+		Map<String, Integer> countMap = new LinkedHashMap<>();
+
 		// 黒石・白石カウント用変数
 		int blackCount = 0;
 		int whiteCount = 0;
-		
+
 		// 2重forループで"〇"と"●"の数を数える
-		for (int i = 0;i < othelloBoad.length;i++) {
-			for (int j = 0; j < othelloBoad[i].length;j++) {
+		for (int i = 0; i < othelloBoad.length; i++) {
+			for (int j = 0; j < othelloBoad[i].length; j++) {
 				if (othelloBoad[i][j] == "●") {
 					blackCount++;
 				} else if (othelloBoad[i][j] == "〇") {
@@ -117,10 +119,10 @@ public class OthelloServiceImpl implements OthelloService {
 				}
 			}
 		}
-		
+
 		countMap.put("blackStone", blackCount);
 		countMap.put("whiteStone", whiteCount);
-		
+
 		return countMap;
 	}
 

@@ -1,15 +1,15 @@
 package com.springbootdemo.entity;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 public class Othello {
 	private int id;
-	private String othelloBoad[][];
+	private String strBoad;
 	private String strTurn;
 	private String myStone;
 	private String rivalStone;
-	private Map<String, Integer> countMap;
+	private int blackCount;
+	private int whiteCount;
 	private LocalDateTime created;
 
 	public Othello() {
@@ -23,12 +23,12 @@ public class Othello {
 		this.id = id;
 	}
 
-	public String[][] getOthelloBoad() {
-		return othelloBoad;
+	public String getStrBoad() {
+		return strBoad;
 	}
 
-	public void setOthelloBoad(String[][] othelloBoad) {
-		this.othelloBoad = othelloBoad;
+	public void setStrBoad(String strBoad) {
+		this.strBoad = strBoad;
 	}
 
 	public String getStrTurn() {
@@ -55,20 +55,28 @@ public class Othello {
 		this.rivalStone = rivalStone;
 	}
 
-	public Map<String, Integer> getCountMap() {
-		return countMap;
-	}
-
-	public void setCountMap(Map<String, Integer> countMap) {
-		this.countMap = countMap;
-	}
-
 	public LocalDateTime getCreated() {
 		return created;
 	}
 
 	public void setCreated(LocalDateTime created) {
 		this.created = created;
+	}
+
+	public int getBlackCount() {
+		return blackCount;
+	}
+
+	public void setBlackCount(int blackCount) {
+		this.blackCount = blackCount;
+	}
+
+	public int getWhiteCount() {
+		return whiteCount;
+	}
+
+	public void setWhiteCount(int whiteCount) {
+		this.whiteCount = whiteCount;
 	}
 
 }

@@ -24,35 +24,29 @@ public class OthelloDaoImpl implements OthelloDao {
 	@Override
 	public void insertOthello(Othello othello) {
 		jdbcTemplate.update(
-				"INSERT INTO othello(othelloBoad[][], strTurn, myStone, rivalStone, countMap, created VALUES(?, ?, ?, ?, ?, ?)",
-				othello.getOthelloBoad(), othello.getStrTurn(), othello.getMyStone(), othello.getRivalStone(),
-				othello.getCountMap(), othello.getCreated());
+				"INSERT INTO othello(strBoad, strTurn, myStone, rivalStone, blackCount, whiteCount, created VALUES(?, ?, ?, ?, ?, ?, ?))",
+				othello.getStrBoad(), othello.getStrTurn(), othello.getMyStone(), othello.getRivalStone(),
+				othello.getBlackCount(), othello.getWhiteCount(), othello.getCreated());
 
 	}
 
 	@Override
 	public List<Othello> getAll() {
-		String sql = "SELECT id, othelloBoad[][], strTurn, myStone, rivalStone, countMap, created FROM othello";
+		String sql = "SELECT id, strBoad, strTurn, myStone, rivalStone, blackCount, whiteCount, created FROM othello";
 		List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
 		List<Othello> list = new ArrayList<Othello>();
 		for (Map<String, Object> result : resultList) {
 			Othello othello = new Othello();
 			othello.setId((int) result.get("id"));
-			othello.setOthelloBoad((String[][]) result.get("othelloBoad[][]"));
+			othello.setStrBoad((String) result.get("strBoad"));
 			othello.setStrTurn((String) result.get("strTurn"));
 			othello.setMyStone((String) result.get("myStone"));
 			othello.setRivalStone((String) result.get("rivalStone"));
-			othello.setCountMap(automaticCast(result.get("countMap")));
+			othello.setBlackCount((int) result.get("blackCount"));
+			othello.setWhiteCount((int) result.get("whiteCount"));
 			othello.setCreated(((Timestamp) result.get("created")).toLocalDateTime());
 			list.add(othello);
 		}
 		return list;
-	}
-
-	// オブジェクト型から呼び出し元の型へ自動キャスト
-	@SuppressWarnings("unchecked")
-	public static <T> T automaticCast(Object src) {
-		T castedObject = (T) src;
-		return castedObject;
 	}
 }

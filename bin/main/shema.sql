@@ -1,0 +1,12 @@
+CREATE TABLE othello
+(
+   id INT NOT NULL AUTO_INCREMENT,
+   strBoad VARCHAR_IGNORECASE(500) NOT NULL,
+   strTurn VARCHAR(50) NOT NULL,
+   myStone VARCHAR(50) NOT NULL,
+   rivalStone VARCHAR(50) NOT NULL,
+   blackCount INT NOT NULL,
+   whiteCount INT NOT NULL,
+   created DATETIME NOT NULL,
+   PRIMARY KEY(id)
+);

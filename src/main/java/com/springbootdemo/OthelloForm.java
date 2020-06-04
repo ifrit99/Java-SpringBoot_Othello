@@ -15,8 +15,14 @@ public class OthelloForm {
 	private String myStone; // 自分の石
 
 	private String rivalStone; // 敵の石
-	
-	private Map<String,Integer> countMap;	// 石カウント用Map
+
+	private Map<String, Integer> countMap; // 石カウント用Map
+
+	private String strBoad; // DBへothelloBoadを格納する用
+
+	private int blackCount; // DBへ黒石の数格納する用
+
+	private int whiteCount; // DBへ白石の数格納する用
 
 	public OthelloForm() {
 
@@ -70,12 +76,36 @@ public class OthelloForm {
 		this.rivalStone = rivalStone;
 	}
 
-	public Map<String,Integer> getCountMap() {
+	public Map<String, Integer> getCountMap() {
 		return countMap;
 	}
 
-	public void setCountMap(Map<String,Integer> countMap) {
+	public void setCountMap(Map<String, Integer> countMap) {
 		this.countMap = countMap;
+	}
+
+	public String getStrBoad() {
+		return strBoad;
+	}
+
+	public void setStrBoad(String strBoad) {
+		this.strBoad = strBoad;
+	}
+
+	public int getBlackCount() {
+		return blackCount;
+	}
+
+	public void setBlackCount(int blackCount) {
+		this.blackCount = blackCount;
+	}
+
+	public int getWhiteCount() {
+		return whiteCount;
+	}
+
+	public void setWhiteCount(int whiteCount) {
+		this.whiteCount = whiteCount;
 	}
 
 }

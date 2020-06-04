@@ -1,7 +1,10 @@
 package com.springbootdemo;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,6 +53,15 @@ public class OthelloController {
 		// 石カウントMapのエンティティを初期化
 		Map<String, Integer> reqCountMap = arg_rq.getCountMap();
 
+		// strBoadのエンティティを初期化
+		String reqStrBoad = arg_rq.getStrBoad();
+
+		// blackCountのエンティティを初期化
+		int reqBlackCount = arg_rq.getBlackCount();
+
+		// whiteCountのエンティティを初期化
+		int reqWhiteCount = arg_rq.getWhiteCount();
+
 		// 最初は黒のターンをセット
 		reqTurn = "黒の番です";
 		arg_rq.setStrTurn(reqTurn);
@@ -65,12 +77,31 @@ public class OthelloController {
 		reqBoad[4][3] = "〇";
 		reqBoad[3][4] = "〇";
 		reqBoad[4][4] = "●";
+
+		// 2次元配列reqBoadをListへ変換してからカンマ区切りの1つの文字列へ変換
+		List<String> list = Arrays.stream(reqBoad).map(line -> String.join(",", line)).collect(Collectors.toList());
+		String str = String.join(",", list);
+
+		// reqStrBoadに格納してセッションへセット
+		reqStrBoad = str;
+		arg_rq.setStrBoad(reqStrBoad);
+
+		System.out.println("-------------CSV化テスト---------------");
+		System.out.println(str);
+		System.out.println("-------------CSV化テスト---------------");
+
 		// オセロ盤面配列をセット
 		arg_rq.setOthelloBoad(reqBoad);
 
 		// 石をカウントしてセット
 		reqCountMap = othelloService.count(reqBoad);
 		arg_rq.setCountMap(reqCountMap);
+
+		// 黒石と白石の数をDB格納用の変数へセット
+		reqBlackCount = reqCountMap.get("blackStone");
+		reqWhiteCount = reqCountMap.get("whiteStone");
+		arg_rq.setBlackCount(reqBlackCount);
+		arg_rq.setWhiteCount(reqWhiteCount);
 
 		// セッション保存
 		setRequestForm(arg_rq);
@@ -107,6 +138,9 @@ public class OthelloController {
 		String reqMyStone = session_rq.getMyStone();
 		String reqRivalStone = session_rq.getRivalStone();
 		Map<String, Integer> reqCountMap = session_rq.getCountMap();
+		String reqStrBoad = session_rq.getStrBoad();
+		int reqBlackCount = session_rq.getBlackCount();
+		int reqWhiteCount = session_rq.getWhiteCount();
 
 		// クリックしたマス目が空なら石を置く
 		if (reqBoad[ry][rx] == null) {
@@ -138,21 +172,6 @@ public class OthelloController {
 			int leftUpCheckFlag = leftUpCheckMap.get("checkFlag");
 			int rightDownCheckFlag = rightDownCheckMap.get("checkFlag");
 			int leftDownCheckFlag = leftDownCheckMap.get("checkFlag");
-
-			// デバッグ用変数
-//			int reverseXtest = rightCheckMap.get("reverseX");
-//			int reverseYtest = rightCheckMap.get("reverseY");
-
-			// エンティティの中身を確認
-//			System.out.println("------------POST-----------");
-//			System.out.println(rightCheckMap.get("checkFlag"));
-//			System.out.println(reverseXtest);
-//			System.out.println(reverseYtest);
-//			System.out.println(reqBoad[3][3]);
-//			System.out.println(reqBoad[4][3]);
-//			System.out.println(reqBoad[3][4]);
-//			System.out.println(reqBoad[4][4]);
-//			System.out.println("------------POST------------");
 
 			if (rightCheckFlag == 1 || leftCheckFlag == 1 || upCheckFlag == 1 || downCheckFlag == 1
 					|| rightUpCheckFlag == 1 || leftUpCheckFlag == 1 || rightDownCheckFlag == 1
@@ -224,6 +243,12 @@ public class OthelloController {
 		// 石カウントMapをセット
 		session_rq.setCountMap(reqCountMap);
 
+		// 黒石と白石の数をDB格納用の変数へセット
+		reqBlackCount = reqCountMap.get("blackStone");
+		reqWhiteCount = reqCountMap.get("whiteStone");
+		session_rq.setBlackCount(reqBlackCount);
+		session_rq.setWhiteCount(reqWhiteCount);
+
 		// 勝敗判定
 		if (reqCountMap.get("blackStone") + reqCountMap.get("whiteStone") == 64) {
 			// 黒勝利時
@@ -238,6 +263,14 @@ public class OthelloController {
 			}
 		}
 
+		// 2次元配列reqBoadをListへ変換してからカンマ区切りの1つの文字列へ変換
+		List<String> list = Arrays.stream(reqBoad).map(line -> String.join(",", line)).collect(Collectors.toList());
+		String str = String.join(",", list);
+
+		// reqStrBoadに格納してセッションへセット
+		reqStrBoad = str;
+		session_rq.setStrBoad(reqStrBoad);
+
 		// セッション保存
 		setRequestForm(session_rq);
 
@@ -250,11 +283,12 @@ public class OthelloController {
 
 		// エンティティ詰めなおし
 		Othello othello = new Othello();
-		othello.setOthelloBoad(session_rq.getOthelloBoad());
+		othello.setStrBoad(session_rq.getStrBoad());
 		othello.setStrTurn(session_rq.getStrTurn());
 		othello.setMyStone(session_rq.getMyStone());
 		othello.setRivalStone(session_rq.getRivalStone());
-		othello.setCountMap(session_rq.getCountMap());
+		othello.setBlackCount(session_rq.getBlackCount());
+		othello.setWhiteCount(session_rq.getWhiteCount());
 		othello.setCreated(LocalDateTime.now());
 
 		// H2DBへ保存
@@ -283,15 +317,11 @@ public class OthelloController {
 		String rTurn = session_rq.getStrTurn();
 		String reqMyStone = session_rq.getMyStone();
 		String reqRivalStone = session_rq.getRivalStone();
-//		int rx = session_rq.getX();
-//		int ry = session_rq.getY();
 		String[][] reqBoad = session_rq.getOthelloBoad();
 		Map<String, Integer> reqCountMap = session_rq.getCountMap();
-
-//		System.out.println("------------pass---------------");
-//		System.out.println(rx);
-//		System.out.println(ry);
-//		System.out.println("------------pass---------------");
+		String reqStrBoad = session_rq.getStrBoad();
+		int reqBlackCount = session_rq.getBlackCount();
+		int reqWhiteCount = session_rq.getWhiteCount();
 
 		// 黒のターンなら"●"、白のターンなら"〇"をオセロ盤配列へ格納する
 		if (rTurn == "黒の番です") {
@@ -318,8 +348,22 @@ public class OthelloController {
 		// オセロ盤面配列をセット
 		session_rq.setOthelloBoad(reqBoad);
 
+		// 2次元配列reqBoadをListへ変換してからカンマ区切りの1つの文字列へ変換
+		List<String> list = Arrays.stream(reqBoad).map(line -> String.join(",", line)).collect(Collectors.toList());
+		String str = String.join(",", list);
+
+		// reqStrBoadに格納してセッションへセット
+		reqStrBoad = str;
+		session_rq.setStrBoad(reqStrBoad);
+
 		// 石カウントMapをセット
 		session_rq.setCountMap(reqCountMap);
+
+		// 黒石と白石の数をDB格納用の変数へセット
+		reqBlackCount = reqCountMap.get("blackStone");
+		reqWhiteCount = reqCountMap.get("whiteStone");
+		session_rq.setBlackCount(reqBlackCount);
+		session_rq.setWhiteCount(reqWhiteCount);
 
 		// セッション保存
 		setRequestForm(session_rq);
