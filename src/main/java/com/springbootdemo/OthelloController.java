@@ -106,14 +106,12 @@ public class OthelloController {
 		// セッション保存
 		setRequestForm(arg_rq);
 
-		// エンティティの中身を確認
-//		System.out.println("------------GET------------");
-//		System.out.println(reqMyStone);
-//		System.out.println(reqBoad[3][3]);
-//		System.out.println(reqBoad[4][3]);
-//		System.out.println(reqBoad[3][4]);
-//		System.out.println(reqBoad[4][4]);
-//		System.out.println("------------GET------------");
+		// DBからデータ取り出し
+		List<Othello> getList = othelloDbService.getAll();
+
+		System.out.println("------------------------DBGET--------------------");
+		System.out.println(getList);
+		System.out.println("------------------------DBGET--------------------");
 
 		// エンティティをThymeleafの変数に設定
 		model.addAttribute("title", "オセロ");

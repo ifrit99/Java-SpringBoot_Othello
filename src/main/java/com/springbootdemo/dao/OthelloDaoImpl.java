@@ -24,7 +24,7 @@ public class OthelloDaoImpl implements OthelloDao {
 	@Override
 	public void insertOthello(Othello othello) {
 		jdbcTemplate.update(
-				"INSERT INTO othello(strBoad, strTurn, myStone, rivalStone, blackCount, whiteCount, created VALUES(?, ?, ?, ?, ?, ?, ?))",
+				"INSERT INTO othello(strBoad, strTurn, myStone, rivalStone, blackCount, whiteCount, created) VALUES(?, ?, ?, ?, ?, ?, ?)",
 				othello.getStrBoad(), othello.getStrTurn(), othello.getMyStone(), othello.getRivalStone(),
 				othello.getBlackCount(), othello.getWhiteCount(), othello.getCreated());
 
