@@ -62,6 +62,13 @@ public class OthelloController {
 		// whiteCountのエンティティを初期化
 		int reqWhiteCount = arg_rq.getWhiteCount();
 
+		// DBからデータ取り出し
+		List<Othello> getList = othelloDbService.getAll();
+
+		System.out.println("------------------------DBGET--------------------");
+		System.out.println(getList);
+		System.out.println("------------------------DBGET--------------------");
+
 		// 最初は黒のターンをセット
 		reqTurn = "黒の番です";
 		arg_rq.setStrTurn(reqTurn);
@@ -106,13 +113,6 @@ public class OthelloController {
 		// セッション保存
 		setRequestForm(arg_rq);
 
-		// DBからデータ取り出し
-		List<Othello> getList = othelloDbService.getAll();
-
-		System.out.println("------------------------DBGET--------------------");
-		System.out.println(getList);
-		System.out.println("------------------------DBGET--------------------");
-
 		// エンティティをThymeleafの変数に設定
 		model.addAttribute("title", "オセロ");
 		model.addAttribute("othelloBoad", reqBoad);
@@ -139,6 +139,13 @@ public class OthelloController {
 		String reqStrBoad = session_rq.getStrBoad();
 		int reqBlackCount = session_rq.getBlackCount();
 		int reqWhiteCount = session_rq.getWhiteCount();
+
+		// DBからデータ取り出し
+		List<Othello> postList = othelloDbService.getAll();
+
+		System.out.println("------------------------DBPOST--------------------");
+		System.out.println(postList);
+		System.out.println("------------------------DBPOST--------------------");
 
 		// クリックしたマス目が空なら石を置く
 		if (reqBoad[ry][rx] == null) {
